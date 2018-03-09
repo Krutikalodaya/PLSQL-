@@ -347,7 +347,39 @@ public class RulesImpl implements Rules {
 		return null;
 	}
 	
+	@Override
+	//No Delete Statement Table
+	public String analyzeTableDelete(String Path, String fileName) throws Exception {
 
+		br = new BufferedReader(new FileReader(Path + fileName));
+		String sCurrentLine;
+		while ((sCurrentLine = br.readLine()) != null) {
+			int index = sCurrentLine.toUpperCase().indexOf("DELETE");
+			if (index != -1) {
+				return "DELETE Statement Found";
+				}
+			}
+		return null;
+	}
+
+	@Override
+	//Commit Statement
+	public String analyzeTableCommit(String Path, String fileName) throws Exception {
+
+		br = new BufferedReader(new FileReader(Path + fileName));
+		String sCurrentLine;
+		int count = 0;
+		while ((sCurrentLine = br.readLine()) != null) {
+			int index = sCurrentLine.toUpperCase().indexOf("COMMIT");
+			if (index != -1) {
+				count++;
+				if(count > 1) {
+				return "More than one commit found";
+				}
+			}
+		}
+		return null;
+	}
 	// return true if Exception Handling is present
 	@Override
 	public String analyzeExceptionHandling(String Path, String fileName) throws Exception {
@@ -366,11 +398,7 @@ public class RulesImpl implements Rules {
 					} else {
 						return "No Exception Handling found";
 					}
-				} else if (sCurrentLine.equals("EXCEPTION WHEN")) {
-					return null;
-				} else {
-					return "No Exception Handling found";
-				}
+				} 
 			}
 		}
 		return null;
@@ -413,8 +441,9 @@ public class RulesImpl implements Rules {
 				String lastOne = words[words.length - 3];
 				extension1 = lastOne.split("(\\.)")[1];
 				extension2 = extension1.split("_")[0];
-				if (!extension2.equals("SYN")) {
-					return "Naming Standard dosen't match for Synonym";
+			if (!extension2.equals("SYN")) {
+					return "Naming Standard dosen't match for Synonym" + sCurrentLine;
+					
 				} else {
 					return null;
 				}
@@ -448,7 +477,7 @@ public class RulesImpl implements Rules {
 		br = new BufferedReader(new FileReader(Path + fileName));
 		String sCurrentLine;
 		while ((sCurrentLine = br.readLine()) != null) {
-			int index = sCurrentLine.indexOf("CREATE");
+			int index = sCurrentLine.indexOf("CREATE OR");
 			if (index != -1) {
 
 				int index1 = sCurrentLine.indexOf("CREATE OR REPLACE TRIGGER");
