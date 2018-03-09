@@ -11,6 +11,10 @@ public interface Rules {
 	
 	public String analyzeTablePrivileges(String Path,String fileName) throws Exception;
 	
+	public String analyzeTableDelete(String Path, String fileName) throws Exception;
+	
+	public String analyzeTableCommit(String Path, String fileName) throws Exception;
+	
 	public String analyzeDropTableScript(String Path,String fileName) throws Exception;
 	
 	public String analyzeCaseSensitivity(String Path,String fileName) throws Exception;

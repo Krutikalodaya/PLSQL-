@@ -82,6 +82,14 @@ public class SqlController {
 						resultant = rules.analyzeTablePrivileges(PATH+folder.getName()+"\\", fileName);
 						if( resultant != null)comments.add(resultant);
 						
+						//analyzeTableDelete
+						resultant = rules.analyzeTableDelete(PATH+folder.getName()+"\\", fileName);
+						if( resultant != null)comments.add(resultant);
+						
+						//analyzeTableCommit
+						resultant = rules.analyzeTableCommit(PATH+folder.getName()+"\\", fileName);
+						if( resultant != null)comments.add(resultant);
+						
 						response.setComments(comments);
 						
 						if(response.getComments().size() == 0) {
